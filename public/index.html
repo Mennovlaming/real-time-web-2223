@@ -13,13 +13,11 @@
 <body>
     <section>
         <h1>Chatroom</h1>
-        <p>type !color 'kleur' om van kleur te veranderen!</p>
-        <p id="kanye-quote"></p>
-        <ul id="messages"></ul>
+        <ul></ul>
         <p class="typing"></p>
         <form id="chatroom">
-            <input id="input" autocomplete="off" />
-            <button type="submit">send</button>
+            <input id="message-input" autocomplete="off" />
+            <button>send</button>
         </form>
     </section>
     <script src="/socket.io/socket.io.js"></script>
