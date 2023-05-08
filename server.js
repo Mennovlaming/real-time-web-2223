@@ -9,29 +9,51 @@ const io = require('socket.io')(http);
 const publicPath = path.resolve(__dirname, 'public');
 app.use(express.static(publicPath));
 
-// io.on('connection', (socket) => {
-//     console.log('a user connected');
-//   });
 
-io.on("connection", (socket) => {
-    console.log("a user connected");
+// io.on('connection', socket => {
+//   // Wanneer er een nieuw chat-bericht binnenkomt
+//   socket.on('message', data => {
+//     const message = data.message;
+//     const color = data.color;
+    
+//     // Als de kleur is veranderd, sla deze op en stuur naar alle clients
+//     if (color !== currentColor) {
+//       currentColor = color;
+//       io.emit('message', { message: 'Achtergrondkleur is veranderd', color: currentColor });
+//     }
+    
+//     // Stuur het bericht naar alle clients
+//     io.emit('message', { message: message, color: currentColor });
+//   });
+// });
   
-    socket.on('typing', (data)=>{
-      if(data.typing==true)
-         io.emit('display', data)
-      else
-         io.emit('display', data)
+
+io.on('connection', socket => {
+  console.log('a user connected');
+
+  fetch('https://api.kanye.rest/')
+    .then(response => response.json())
+    .then(data => {
+
+      io.emit('kanye-quote', data.quote);
     })
-  
-    socket.on("message", (message) => {
-  
-      io.emit("message", message);
-    });
-  
-    socket.on("disconnect", () => {
-      console.log("user disconnected");
-    });
+    .catch(error => console.error(error))
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
+
+  socket.on('message', data => {
+    io.emit('message', data);
+  });
+
+  socket.on('color', newColor => {
+    // Verstuur de nieuwe kleur naar alle clients
+    io.emit('color', newColor);
+  });
+  
+});
+
 
 http.listen(port, () => {
     console.log(`Server running on port ${port}`);
