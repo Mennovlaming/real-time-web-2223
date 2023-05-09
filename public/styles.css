@@ -106,7 +106,7 @@ section:first-of-type {
     height: 0; 
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 10px solid black;
+    border-top: 10px solid #bebebe;
     
   }
 
