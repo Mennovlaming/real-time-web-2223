@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const http = require("http").createServer(app);
 const port = process.env.PORT || 3000;
+const http = require("http").createServer(app);
 const io = require('socket.io')(http);
 //met path maak je de path 'universeel' voor elk besturingsysteem
 
