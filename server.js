@@ -20,27 +20,25 @@ io.on('connection', socket => {
        io.emit('display', data)
   })
 
-  //Als er een user connect, fetch een quote van de api.
-  // fetch('https://api.kanye.rest/')
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     // vervolgens stuur je die quote met emit naar je gebruikers.
-  //     io.emit('kanye-quote', data.quote);
-  //   })
-  //   .catch(error => console.error(error))
+  let currentQuote = '';
 
-
-  // socket.on('chat message', message => {
-  //   // If the message is "!nextquote", fetch a new quote and emit it to all clients
-  //   if (message === '!nextquote') {
-  //     fetch('https://api.kanye.rest/')
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         io.emit('kanye-quote', data.quote);
-  //       })
-  //       .catch(error => console.error(error));
-  //   }
-  // });
+  io.on('connection', (socket) => {
+    // Stuur de huidige quote naar de nieuwe gebruiker
+    socket.emit('currentQuote', currentQuote);
+  
+    // Luister naar het getCurrentQuote-event om de huidige quote naar de client te sturen
+    socket.on('getCurrentQuote', () => {
+      socket.emit('currentQuote', currentQuote);
+    });
+  
+    // Luister naar nieuwe quotes van de clients
+    socket.on('nextQuote', (quote) => {
+      currentQuote = quote;
+      io.emit('currentQuote', currentQuote);
+    });
+  });
+  
+  
 
   
   socket.on('disconnect', () => {
@@ -57,7 +55,6 @@ io.on('connection', socket => {
   });
   
 });
-
 
 http.listen(port, () => {
     console.log(`Server running on port ${port}`);

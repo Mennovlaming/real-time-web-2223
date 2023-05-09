@@ -3,40 +3,44 @@ let socket = io();
 let messages = document.querySelector('#messages');
 let input = document.querySelector('input');
 
-let userName = '';
+const kanyequote = document.querySelector('#kanye-quote');
 
+socket.emit('getCurrentQuote');
 
-function getKanyeQuote() {
-  fetch('https://api.kanye.rest/')
-    .then(response => response.json())
-    .then(data => {
-      const kanyeQuote = document.getElementById('kanye-quote');
-      kanyeQuote.innerText = data.quote;
-    })
-    .catch(error => console.error(error));
-}
-
-// Call the function to get the initial quote
-getKanyeQuote();
+socket.on('currentQuote', (quote) => {
+  // Update de quote op de pagina
+  kanyequote.innerHTML = quote;
+});
 
 document.querySelector('form').addEventListener('submit', event => {
   const message = input.value;
-  event.preventDefault()
+  event.preventDefault();
+
   if (input.value) {
     if (message.startsWith('!color ')) {
       // Als het bericht begint met '!color ', stuur dan een 'color' event naar de server met de nieuwe kleurwaarde
       const newColor = message.substring(7);
       socket.emit('color', newColor);
-    } else if (message === '!nextquote'){
-      socket.emit('chat message', message);
+    } else if (message === '!nextquote') {
+      // Als het bericht '!nextquote' is, vraag dan een nieuwe quote op en stuur deze naar de server
+      fetch('https://api.kanye.rest/')
+        .then(response => response.json())
+        .then(data => {
+          const quote = data.quote;
+          socket.emit('nextQuote', quote);
+        })
+        .catch(error => console.error(error));
     } else {
       // Stuur het bericht naar de server
       socket.emit('message', input.value);
     }
-    input.value = ''
+    input.value = '';
   }
 });
 
+
+
+//aan het typen
 document.querySelector('form').addEventListener('keypress', e => {
   if(e.witch!=13) {
       typing = true
@@ -48,48 +52,36 @@ document.querySelector('form').addEventListener('keypress', e => {
   }
 })
 
+//niet aan het typen
 function typingTimeout() {
   console.log('notyping')
   typing = false
   socket.emit('typing', {typing: false})
 }
 
-messages.addEventListener('submit', event => {
-  event.preventDefault();
-  const message = input.value.trim();
-
-  if (message === '!nextquote') {
-    socket.emit('chat message', message);
-  } else {
-    // If the message is not "!nextquote", send it to the server as a regular chat message
-    socket.emit('chat message', chatInput.value);
-  }
-
-  input.value = '';
-});
-
+//message versturen
 socket.on('message', message => {
   messages.appendChild(Object.assign(document.createElement('li'), { textContent: message }))
   messages.scrollTop = messages.scrollHeight
 });
 
+
+ // Verander de achtergrondkleur
 socket.on('color', newColor => {
-  // Verander de achtergrondkleur
   document.body.style.backgroundColor = newColor;
 });
 
-
-// When a new Kanye West quote is received
-socket.on('kanye-quote', (quote) => {
-  // Display the quote on the webpage
-  document.getElementById('kanye-quote').innerHTML = quote;
-});
-
+//aan het typen
 socket.on('display', (data)=>{
   if(data.typing==true)
   document.querySelector('.typing').innerHTML = "iemand is aan het typen ..."
   else
   document.querySelector('.typing').innerHTML = ""
-})
+});
+
+
+
+
+
 
 
