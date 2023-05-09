@@ -11,8 +11,10 @@ app.use(express.static(publicPath));
   
 
 io.on('connection', socket => {
+  //Als iemand connect.
   console.log('a user connected');
 
+  //als iemand aan het typen is.
   socket.on('typing', (data)=>{
     if(data.typing==true)
        io.emit('display', data)
@@ -23,10 +25,10 @@ io.on('connection', socket => {
   let currentQuote = '';
 
   io.on('connection', (socket) => {
-    // Stuur de huidige quote naar de nieuwe gebruiker
+    //stuurt de huidige quote naar de nieuwe gebruiker met emit
     socket.emit('currentQuote', currentQuote);
   
-    // Luister naar het getCurrentQuote-event om de huidige quote naar de client te sturen
+    //luistert naar het getCurrentQuote-event om de huidige quote naar de client te sturen
     socket.on('getCurrentQuote', () => {
       socket.emit('currentQuote', currentQuote);
     });
@@ -34,6 +36,7 @@ io.on('connection', socket => {
     // Luister naar nieuwe quotes van de clients
     socket.on('nextQuote', (quote) => {
       currentQuote = quote;
+      //stuurt dit door met emit
       io.emit('currentQuote', currentQuote);
     });
   });
@@ -42,15 +45,17 @@ io.on('connection', socket => {
 
   
   socket.on('disconnect', () => {
+    //als iemand disconnect
     console.log('user disconnected');
   });
 
   socket.on('message', data => {
+    //bij een bericht, word dit doorgestuurd met emit.
     io.emit('message', data);
   });
 
   socket.on('color', newColor => {
-    // Verstuur de nieuwe kleur naar alle clients
+    // Verstuur de nieuwe kleur naar alle clients, zelfde als hierboven.
     io.emit('color', newColor);
   });
   

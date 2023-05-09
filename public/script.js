@@ -8,7 +8,7 @@ const kanyequote = document.querySelector('#kanye-quote');
 socket.emit('getCurrentQuote');
 
 socket.on('currentQuote', (quote) => {
-  // Update de quote op de pagina
+  //update de quote op de pagina
   kanyequote.innerHTML = quote;
 });
 
@@ -18,11 +18,11 @@ document.querySelector('form').addEventListener('submit', event => {
 
   if (input.value) {
     if (message.startsWith('!color ')) {
-      // Als het bericht begint met '!color ', stuur dan een 'color' event naar de server met de nieuwe kleurwaarde
+      //als het bericht begint met '!color ', stuur dan een 'color' naar de server met de nieuwe kleurcode
       const newColor = message.substring(7);
       socket.emit('color', newColor);
     } else if (message === '!nextquote') {
-      // Als het bericht '!nextquote' is, vraag dan een nieuwe quote op en stuur deze naar de server
+      //als het bericht '!nextquote' is, vraag dan een nieuwe quote op en stuur deze naar de server
       fetch('https://api.kanye.rest/')
         .then(response => response.json())
         .then(data => {
@@ -31,7 +31,7 @@ document.querySelector('form').addEventListener('submit', event => {
         })
         .catch(error => console.error(error));
     } else {
-      // Stuur het bericht naar de server
+      //stuurt het bericht naar de server
       socket.emit('message', input.value);
     }
     input.value = '';
@@ -43,10 +43,12 @@ document.querySelector('form').addEventListener('submit', event => {
 //aan het typen
 document.querySelector('form').addEventListener('keypress', e => {
   if(e.witch!=13) {
+    //als het niet keycode 13 is (dat is enter)
       typing = true
       socket.emit('typing', {typing:true})
       setTimeout(typingTimeout, 1500)
   } else {
+    //als het wel enter is. voer de functie uit.
       setTimeout(typingTimeout, 1500)
       typingTimeout()
   }
@@ -61,12 +63,13 @@ function typingTimeout() {
 
 //message versturen
 socket.on('message', message => {
+  //maak een child aan 'li' met de content van de message
   messages.appendChild(Object.assign(document.createElement('li'), { textContent: message }))
   messages.scrollTop = messages.scrollHeight
 });
 
 
- // Verander de achtergrondkleur
+ //verander de achtergrondkleur
 socket.on('color', newColor => {
   document.body.style.backgroundColor = newColor;
 });
