@@ -13,14 +13,23 @@
 <body>
     <section>
         <h1>Chatroom</h1>
-        <p>type !color 'kleur' om van kleur te veranderen!</p>
-        <p id="kanye-quote"></p>
+        <ul>
+            <li>type '!color kleur' om de achtergrondkleur te veranderen!</li>
+            <li>type '!nextquote' om de volgende briljante quote van Kanye te zien.</li>
+            <li>(neem niet alles te serieus)</li>
+        </ul>
+        
+        
         <ul id="messages"></ul>
         <p class="typing"></p>
         <form id="chatroom">
             <input id="input" autocomplete="off" />
             <button type="submit">send</button>
         </form>
+    </section>
+    <section>
+        <p><strong>Kanye West:</strong></p>
+        <p id="kanye-quote"></p>
     </section>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
