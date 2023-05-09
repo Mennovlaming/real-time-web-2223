@@ -21,13 +21,13 @@ io.on('connection', socket => {
   })
 
   //Als er een user connect, fetch een quote van de api.
-  fetch('https://api.kanye.rest/')
-    .then(response => response.json())
-    .then(data => {
-      // vervolgens stuur je die quote met emit naar je gebruikers.
-      io.emit('kanye-quote', data.quote);
-    })
-    .catch(error => console.error(error))
+  // fetch('https://api.kanye.rest/')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     // vervolgens stuur je die quote met emit naar je gebruikers.
+  //     io.emit('kanye-quote', data.quote);
+  //   })
+  //   .catch(error => console.error(error))
 
 
   socket.on('chat message', message => {
