@@ -22,7 +22,7 @@ Het is de bedoeling dat de gebruikers allemaal deze quotes te zien krijgen en oo
 gaan als er een bepaald commando word ingetypt. 
 
 ## Data model 
-<img width="691" alt="image" src="https://github.com/Mennovlaming/real-time-web-2223/assets/24406793/dac4a9d9-78e3-4d1d-8c80-3be811344156">
+<img width="1025" alt="image" src="https://github.com/Mennovlaming/real-time-web-2223/assets/24406793/49074dd0-8c2f-41ad-b0f8-0451c35c06d6">
 
 ## Proces
 ### Week 1
