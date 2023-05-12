@@ -22,6 +22,7 @@ Het is de bedoeling dat de gebruikers allemaal deze quotes te zien krijgen en oo
 gaan als er een bepaald commando word ingetypt. 
 
 ## Data model 
+Om een duidelijk beeld te schetsen van hoe de data in mijn applicatie van de server naar de client en API gaat, heb ik een data model geschetst
 <img width="1025" alt="image" src="https://github.com/Mennovlaming/real-time-web-2223/assets/24406793/49074dd0-8c2f-41ad-b0f8-0451c35c06d6">
 
 ## Proces
